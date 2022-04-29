@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euf -o pipefail
 
-cd "$(dirname "$0")/../secrets/" || exit
+cd "secrets/" || exit
 
 echo "🔖  Generating some fake certificates and other secrets."
 echo "⚠️  Remember to type in \"yes\" for all prompts."
@@ -13,7 +13,7 @@ PASSWORD="awesomekafka"
 # Generate CA key
 openssl req -new -x509 -keyout fake-ca-1.key \
 	-out fake-ca-1.crt -days 9999 \
-	-subj "/CN=ca1.${TLD}/OU=TS/O=Atos/L=Orleans/S=VIC/C=AU" \
+	-subj "/CN=ca1.${TLD}/OU=TS/O=Atos/L=Orleans/C=AU" \
 	-passin pass:$PASSWORD -passout pass:$PASSWORD
 
 	# Create keystores
@@ -40,6 +40,5 @@ openssl req -new -x509 -keyout fake-ca-1.key \
 	echo $PASSWORD >broker_sslkey_creds
 	echo $PASSWORD >broker_keystore_creds
 	echo $PASSWORD >broker_truststore_creds
-done
 
 echo "✅  All done."
